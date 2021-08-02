@@ -17,6 +17,7 @@ iterator.
 You'll edit this file in Tasks 3a and 3c.
 """
 import operator
+from itertools import islice
 
 
 class UnsupportedCriterionError(NotImplementedError):
@@ -201,9 +202,9 @@ def create_filters(date=None, start_date=None, end_date=None,
     if date:
         filters.append(DateFilter(date))
     if start_date:
-        filters.append(DateFilter(start_date))
+        filters.append(StartDateFilter(start_date))
     if end_date:
-        filters.append(DateFilter(end_date))
+        filters.append(EndDateFilter(end_date))
     if distance_min:
         filters.append(MinDistanceFilter(distance_min))
     if distance_max:
@@ -232,4 +233,7 @@ def limit(iterator, n=None):
     :yield: The first (at most) `n` values from the iterator.
     """
     # TODO: Produce at most `n` values from the given iterator.
+    if n and n > 0:
+        return islice(iterator, n)
+
     return iterator
