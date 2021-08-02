@@ -45,7 +45,7 @@ class NearEarthObject:
         # handle any edge cases, such as a empty name being represented by `None`
         # and a missing diameter being represented by `float('nan')`.
         self.designation = info["pdes"]
-        self.name = info["name"]
+        self.name = info["name"] if info["name"] != "" else None
         self.diameter = float('nan') if info["diameter"] == "" else float(info["diameter"])
         self.hazardous = info["pha"] == "Y"
 
