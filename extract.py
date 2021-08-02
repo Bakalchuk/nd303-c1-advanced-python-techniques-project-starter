@@ -10,7 +10,6 @@ formatted as described in the project instructions, into a collection of
 The main module calls these functions with the arguments provided at the command
 line, and uses the resulting collections to build an `NEODatabase`.
 
-You'll edit this file in Task 2.
 """
 import csv
 import json
@@ -36,14 +35,13 @@ def load_approaches(cad_json_path):
     :param cad_json_path: A path to a JSON file containing data about close approaches.
     :return: A collection of `CloseApproach`es.
     """
-    # TODO: Load close approach data from the given JSON file.
     with open(cad_json_path, 'r') as f:
         cad = json.load(f)
         fields = cad['fields']
         data = cad['data']
         res = []
         for ca_data in data:
-            info = {k: v for k, v in zip(fields, ca_data)}
+            info = {k: v for k, v in zip(fields, ca_data)}  # link fields with data
             res.append(CloseApproach(**info))
         return res
 
