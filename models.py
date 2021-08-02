@@ -47,7 +47,7 @@ class NearEarthObject:
         self.designation = info["pdes"]
         self.name = info["name"] if info["name"] != "" else None
         self.diameter = float('nan') if info["diameter"] == "" else float(info["diameter"])
-        self.hazardous = info["pha"] == "Y"
+        self.hazardous = (info["pha"] == "Y")
 
         # Create an empty initial collection of linked approaches.
         self.approaches = []
@@ -56,7 +56,7 @@ class NearEarthObject:
     def fullname(self):
         """Return a representation of the full name of this NEO."""
         # TODO: Use self.designation and self.name to build a fullname for this object.
-        return f'{self.designation} {self.name}'
+        return f'{self.designation} {self.name if self.name else ""}'
 
     def __str__(self):
         """Return `str(self)`."""

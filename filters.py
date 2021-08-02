@@ -72,6 +72,96 @@ class AttributeFilter:
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
+class HazardousFilter(AttributeFilter):
+    def __init__(self, hazardous):
+        super().__init__(operator.eq, hazardous)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.hazardous
+
+
+class DateFilter(AttributeFilter):
+    def __init__(self, date):
+        super().__init__(operator.eq, date)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+
+class StartDateFilter(AttributeFilter):
+    def __init__(self, date):
+        super().__init__(operator.ge, date)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+
+class EndDateFilter(AttributeFilter):
+    def __init__(self, date):
+        super().__init__(operator.le, date)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.time.date()
+
+
+class MinDistanceFilter(AttributeFilter):
+    def __init__(self, val):
+        super().__init__(operator.ge, val)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.distance
+
+
+class MaxDistanceFilter(AttributeFilter):
+    def __init__(self, val):
+        super().__init__(operator.le, val)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.distance
+
+
+class MinVelocityFilter(AttributeFilter):
+    def __init__(self, val):
+        super().__init__(operator.ge, val)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.velocity
+
+
+class MaxVelocityFilter(AttributeFilter):
+    def __init__(self, val):
+        super().__init__(operator.le, val)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.velocity
+
+
+class MinDiameterFilter(AttributeFilter):
+    def __init__(self, val):
+        super().__init__(operator.ge, val)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.diameter
+
+
+class MaxDiameterFilter(AttributeFilter):
+    def __init__(self, val):
+        super().__init__(operator.le, val)
+
+    @classmethod
+    def get(cls, approach):
+        return approach.neo.diameter
+
+
 def create_filters(date=None, start_date=None, end_date=None,
                    distance_min=None, distance_max=None,
                    velocity_min=None, velocity_max=None,
@@ -107,7 +197,29 @@ def create_filters(date=None, start_date=None, end_date=None,
     :return: A collection of filters for use with `query`.
     """
     # TODO: Decide how you will represent your filters.
-    return ()
+    filters = []
+    if date:
+        filters.append(DateFilter(date))
+    if start_date:
+        filters.append(DateFilter(start_date))
+    if end_date:
+        filters.append(DateFilter(end_date))
+    if distance_min:
+        filters.append(MinDistanceFilter(distance_min))
+    if distance_max:
+        filters.append(MaxDistanceFilter(distance_max))
+    if velocity_min:
+        filters.append(MinVelocityFilter(velocity_min))
+    if velocity_max:
+        filters.append(MaxVelocityFilter(velocity_max))
+    if diameter_min:
+        filters.append(MinDiameterFilter(diameter_min))
+    if diameter_max:
+        filters.append(MaxDiameterFilter(diameter_max))
+    if hazardous is not None:
+        filters.append(HazardousFilter(hazardous))
+
+    return filters
 
 
 def limit(iterator, n=None):
