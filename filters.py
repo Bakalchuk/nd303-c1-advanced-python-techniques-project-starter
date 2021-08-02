@@ -38,6 +38,7 @@ class AttributeFilter:
     Concrete subclasses can override the `get` classmethod to provide custom
     behavior to fetch a desired attribute from the given `CloseApproach`.
     """
+
     def __init__(self, op, value):
         """Construct a new `AttributeFilter` from an binary predicate and a reference value.
 
@@ -69,96 +70,137 @@ class AttributeFilter:
         raise UnsupportedCriterionError
 
     def __repr__(self):
+        """Get machine representation of the object."""
         return f"{self.__class__.__name__}(op=operator.{self.op.__name__}, value={self.value})"
 
 
 class HazardousFilter(AttributeFilter):
+    """Filter for querying NEOs by whether they are hazardous."""
+
     def __init__(self, hazardous):
+        """Check hazardous equality."""
         super().__init__(operator.eq, hazardous)
 
     @classmethod
     def get(cls, approach):
+        """Get hazardous field."""
         return approach.neo.hazardous
 
 
 class DateFilter(AttributeFilter):
+    """Filter for querying approaches by exact date."""
+
     def __init__(self, date):
+        """Check for date equality."""
         super().__init__(operator.eq, date)
 
     @classmethod
     def get(cls, approach):
+        """Get the date of the approach."""
         return approach.time.date()
 
 
 class StartDateFilter(AttributeFilter):
+    """Filter for querying approaches by whether they are since specific date."""
+
     def __init__(self, date):
+        """Check if approach's date >= date."""
         super().__init__(operator.ge, date)
 
     @classmethod
     def get(cls, approach):
+        """Get the date of the approach."""
         return approach.time.date()
 
 
 class EndDateFilter(AttributeFilter):
+    """Filter for querying approaches by whether they are before specific date."""
+
     def __init__(self, date):
+        """Check if approach's date <= date."""
         super().__init__(operator.le, date)
 
     @classmethod
     def get(cls, approach):
+        """Get the date of the approach."""
         return approach.time.date()
 
 
 class MinDistanceFilter(AttributeFilter):
+    """Filter for querying approaches by whether they above certain distance."""
+
     def __init__(self, val):
+        """Check if approach's distance >= val."""
         super().__init__(operator.ge, val)
 
     @classmethod
     def get(cls, approach):
+        """Get the distance of the approach."""
         return approach.distance
 
 
 class MaxDistanceFilter(AttributeFilter):
+    """Filter for querying approaches by whether they below certain distance."""
+
     def __init__(self, val):
+        """Check if approach's distance <= val."""
         super().__init__(operator.le, val)
 
     @classmethod
     def get(cls, approach):
+        """Get the distance of the approach."""
         return approach.distance
 
 
 class MinVelocityFilter(AttributeFilter):
+    """Filter for querying approaches by whether they above certain velocity."""
+
     def __init__(self, val):
+        """Check if approach's velocity <= val."""
         super().__init__(operator.ge, val)
 
     @classmethod
     def get(cls, approach):
+        """Get the velocity of the approach."""
         return approach.velocity
 
 
 class MaxVelocityFilter(AttributeFilter):
+    """Filter for querying approaches by whether they below certain velocity."""
+
     def __init__(self, val):
+        """Check if approach's velocity >= val."""
         super().__init__(operator.le, val)
 
     @classmethod
     def get(cls, approach):
+        """Get the velocity of the approach."""
         return approach.velocity
 
 
 class MinDiameterFilter(AttributeFilter):
+    """Filter for querying NEOs by whether they above certain diameter."""
+
     def __init__(self, val):
+        """Check if NEO's diameter >= val."""
         super().__init__(operator.ge, val)
 
     @classmethod
     def get(cls, approach):
+        """Get the diameter of the NEO."""
         return approach.neo.diameter
 
 
 class MaxDiameterFilter(AttributeFilter):
+    """Filter for querying NEOs by whether they below certain diameter."""
+
     def __init__(self, val):
+        """Check if NEO's diameter <= val."""
         super().__init__(operator.le, val)
 
     @classmethod
     def get(cls, approach):
+        """Get the diameter of the NEO."""
         return approach.neo.diameter
 
 
