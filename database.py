@@ -11,7 +11,6 @@ data on NEOs and close approaches extracted by `extract.load_neos` and
 
 You'll edit this file in Tasks 2 and 3.
 """
-from models import CloseApproach
 
 
 class NEODatabase:
@@ -49,10 +48,9 @@ class NEODatabase:
 
         # TODO: Link together the NEOs and their close approaches.
         for approach in self._approaches:
-            neo = self._neo_by_designation[approach._designation]
+            neo = self._neo_by_designation[approach.neo.designation]
             approach.neo = neo
             neo.approaches.append(approach)
-
 
     def get_neo_by_designation(self, designation):
         """Find and return an NEO by its primary designation.
