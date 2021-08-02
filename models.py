@@ -122,6 +122,10 @@ class CloseApproach:
         # TODO: Use self.designation and self.name to build a fullname for this object.
         return f'{self._designation} time: {datetime_to_str(self.time)}'
 
+    @property
+    def designation(self):
+        return self._designation
+
     def __str__(self):
         """Return `str(self)`."""
         # TODO: Use this object's attributes to return a human-readable string representation.

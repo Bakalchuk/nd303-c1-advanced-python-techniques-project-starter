@@ -48,7 +48,7 @@ class NEODatabase:
 
         # TODO: Link together the NEOs and their close approaches.
         for approach in self._approaches:
-            neo = self._neo_by_designation[approach.neo.designation]
+            neo = self._neo_by_designation[approach.designation]
             approach.neo = neo
             neo.approaches.append(approach)
 

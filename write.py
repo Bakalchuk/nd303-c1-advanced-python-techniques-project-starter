@@ -36,7 +36,7 @@ def write_to_csv(results, filename):
         writer.writerows(map(lambda result: (datetime_to_str(result.time),
                                              result.distance,
                                              result.velocity,
-                                             result.neo.designation,
+                                             result.designation,
                                              result.neo.name if result.neo.name else "",
                                              result.neo.diameter,
                                              result.neo.hazardous
